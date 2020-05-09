@@ -1,0 +1,52 @@
+{
+	"providers": {
+		"awscloudformation": {
+			"AuthRoleName": "amplify-frontend-env-182003-authRole",
+			"UnauthRoleArn": "arn:aws:iam::126658246891:role/amplify-frontend-env-182003-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::126658246891:role/amplify-frontend-env-182003-authRole",
+			"Region": "us-west-2",
+			"DeploymentBucketName": "amplify-frontend-env-182003-deployment",
+			"UnauthRoleName": "amplify-frontend-env-182003-unauthRole",
+			"StackName": "amplify-frontend-env-182003",
+			"StackId": "arn:aws:cloudformation:us-west-2:126658246891:stack/amplify-frontend-env-182003/c9339310-7c5b-11ea-a2c6-0aaf12ba6aa0",
+			"AmplifyAppId": "dbvr3em9pzs7g"
+		}
+	},
+	"hosting": {
+		"amplifyhosting": {
+			"service": "amplifyhosting",
+			"providerPlugin": "awscloudformation",
+			"type": "manual",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-frontend-env-182003-deployment/amplify-cfn-templates/hosting/amplifyhosting-template.json",
+				"logicalId": "hostingamplifyhosting"
+			},
+			"lastPushTimeStamp": "2020-04-18T04:14:28.332Z",
+			"output": {},
+			"lastPushDirHash": "/+VZ33seFFqAr6wbtptwbINUfSA="
+		}
+	},
+	"auth": {
+		"frontendbb8f3844": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [],
+			"customAuth": false,
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-frontend-env-182003-deployment/amplify-cfn-templates/auth/frontendbb8f3844-cloudformation-template.yml",
+				"logicalId": "authfrontendbb8f3844"
+			},
+			"lastPushTimeStamp": "2020-04-18T04:14:28.337Z",
+			"output": {
+				"AppClientSecret": "1ljg66o3oh0aon6282ka6c03ohm5vqsmj2j3rb6geup1vg86lq63",
+				"UserPoolId": "us-west-2_fepMQ3DLd",
+				"AppClientIDWeb": "740b8gc3gae8tih270rih86945",
+				"AppClientID": "10mcnf1u7f5kaatsdihl4dfr88",
+				"IdentityPoolId": "us-west-2:0aa1b0dd-144d-485d-8d8f-6cbd28012c66",
+				"IdentityPoolName": "frontendbb8f3844_identitypool_bb8f3844__env",
+				"UserPoolName": "frontendbb8f3844_userpool_bb8f3844"
+			},
+			"lastPushDirHash": "u/7ESPJpCajZnydWumcilGi2iXw="
+		}
+	}
+}
