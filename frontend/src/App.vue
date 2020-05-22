@@ -1,25 +1,32 @@
 <template>
   <div id="app">
-    <component class="appLayout" :is="layout">
-      <router-view :layout.sync="layout" />
-    </component>
+    <component class="appLayout" :is="layout"></component>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import PreDashboard from "@/layouts/PreDashboard.vue";
+import DashboardLayout from "@/layouts/DashboardLayout.vue";
 
 export default {
-  name: "app",
-  data: function() {
-    return {
-      layout: `div`
-    };
+  components: {
+    predashboard: PreDashboard,
+    dashboardlayout: DashboardLayout
+  },
+  computed: {
+    layout() {
+      return this.$route.meta.layout || DashboardLayout;
+    }
   }
 };
 </script>
 
-<style>
+<style lang="scss">
+@import "~bulma/sass/utilities/_all";
+
+$base-color: #2c3e50;
+
 * {
   margin: 0;
   padding: 0;

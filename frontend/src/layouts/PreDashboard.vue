@@ -1,27 +1,15 @@
 <template>
   <div>
-    <section class="hero has-background-white-ter">
-      <div class="hero-head">
-        <div class="brand">Bradynce CRM</div>
-      </div>
-      <div class="hero-body">
-        <div class="slot">
-          <slot />
-        </div>
-      </div>
+    <section>
+      <router-view></router-view>
+      <slot />
     </section>
   </div>
 </template>
 
 <script>
 export default {
-  name: "LoginSignup",
-  data: function() {
-    return {
-      email: "",
-      password: ""
-    };
-  }
+  name: "PreDashboard"
 };
 </script>
 

@@ -1,52 +1,42 @@
 <template>
   <div>
+    <div class="brand">Bradynce CRM</div>
     <div
-      class="container"
+      class="container main-container"
       :class="{ 'right-panel-active': rightPanel }"
       id="container"
     >
       <div class="form-container sign-up-container">
-        <form action="#">
+        <form>
           <h1>Create Account</h1>
           <input type="text" v-model="firstName" placeholder="First Name" />
           <input type="text" v-model="lastName" placeholder="Last Name" />
           <input type="email" v-model="emailUp" placeholder="Email" />
           <input type="password" v-model="passwordUp" placeholder="Password" />
-          <input
-            type="number"
-            v-if="emailSent"
-            v-model="code"
-            placeholder="Confirmation Code"
-          />
+          <input type="number" v-if="emailSent" v-model="code" placeholder="Confirmation Code" />
           <button @click="signUp()">Sign Up</button>
         </form>
       </div>
       <div class="form-container sign-in-container">
-        <form action="#">
+        <div class="signin-form">
           <h1>Sign in</h1>
           <input type="email" v-model="emailIn" placeholder="Email" />
           <input type="password" v-model="passwordIn" placeholder="Password" />
           <a href="#">Forgot your password?</a>
           <button @click="signIn()">Sign In</button>
-        </form>
+        </div>
       </div>
       <div class="overlay-container">
         <div class="overlay">
           <div class="overlay-panel overlay-left">
             <h1>Welcome Back!</h1>
-            <p>
-              To keep connected with us please login with your personal info
-            </p>
-            <button class="ghost" id="signIn" @click="rightPanel = false">
-              Sign In
-            </button>
+            <p>To keep connected with us please login with your personal info</p>
+            <button class="ghost" id="signIn" @click="rightPanel = false">Sign In</button>
           </div>
           <div class="overlay-panel overlay-right">
             <h1>Hello, Friend!</h1>
             <p>Enter your personal details and start journey with us</p>
-            <button class="ghost" id="signUp" @click="rightPanel = true">
-              Sign Up
-            </button>
+            <button class="ghost" id="signUp" @click="rightPanel = true">Sign Up</button>
           </div>
         </div>
       </div>
@@ -58,7 +48,7 @@
 import { Auth } from "aws-amplify";
 // import { axios } from "axios";
 
-import LoginSignupLayout from "@/layouts/LoginSignupLayout.vue";
+// import LoginSignupLayout from "@/layouts/LoginSignupLayout.vue";
 
 export default {
   data() {
@@ -71,11 +61,11 @@ export default {
       emailUp: "",
       passwordUp: "",
       code: "",
-      emailSent: false,
+      emailSent: false
     };
   },
   created() {
-    this.$emit(`update:layout`, LoginSignupLayout);
+    //this.$emit(`update:layout`, LoginSignupLayout);
   },
   methods: {
     signUp() {
@@ -84,14 +74,14 @@ export default {
           username: this.emailUp,
           password: this.passwordUp,
           attributes: {
-            email: this.emailUp,
-          },
+            email: this.emailUp
+          }
         })
-          .then((data) => {
+          .then(data => {
             this.emailSent = true;
             console.log(data);
           })
-          .catch((err) => console.log(err));
+          .catch(err => console.log(err));
       } else {
         this.confirm();
       }
@@ -112,24 +102,28 @@ export default {
     confirm() {
       // After retrieveing the confirmation code from the user
       Auth.confirmSignUp(this.emailUp, this.code, {})
-        .then((data) => {
+        .then(data => {
           console.log(data);
           this.rightPanel = false;
         })
-        .catch((err) => console.log(err));
+        .catch(err => console.log(err));
     },
     signIn() {
       let username = this.emailIn;
       let password = this.passwordIn;
       Auth.signIn(username, password)
-        .then((user) => {
-          this.$router.push({ path: "/dashboard" });
+        .then(user => {
+          this.$store.commit("SETLAYOUT", "dashboardlayout");
+          this.home();
           this.$store.commit("SETUSER", user);
           this.$store.commit("CHANGESIGNEDIN", true);
         })
-        .catch((err) => console.log(err));
+        .catch(err => console.log(err));
     },
-  },
+    home() {
+      this.$router.push("/dashboard");
+    }
+  }
 };
 </script>
 
@@ -188,7 +182,7 @@ button.ghost {
   border-color: #ffffff;
 }
 
-form {
+.signin-form {
   background-color: #ffffff;
   display: flex;
   align-items: center;
@@ -208,6 +202,18 @@ input {
   border-radius: 5px;
 }
 
+.brand {
+  color: hsl(0, 0%, 96%);
+  padding-top: 10px;
+  padding-left: 20px;
+  font-family: "Lora", serif;
+  font-size: 2em;
+  font-weight: 600;
+  text-align: left;
+  background-color: #2c3e50;
+  padding-bottom: 10px;
+}
+
 .container {
   background-color: #fff;
   border-radius: 10px;
@@ -217,6 +223,7 @@ input {
   width: 768px;
   max-width: 100%;
   min-height: 480px;
+  margin-top: 10vh;
 }
 
 .form-container {

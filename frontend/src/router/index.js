@@ -1,9 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
-import Dashboard from "../views/Dashboard.vue";
-import Leads from "../views/Leads.vue";
-import SignUp from "../views/SignUp.vue";
 
 Vue.use(VueRouter);
 
@@ -11,27 +7,33 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home,
+    meta: { layout: "predashboard" },
+    component: () => import(/* webpackChunkName: "home" */ "../views/Home.vue"),
   },
   {
     path: "/dashboard",
     name: "Dashboard",
-    component: Dashboard,
+    component: () =>
+      import(/* webpackChunkName: "dashboard" */ "../views/Dashboard.vue"),
   },
   {
     path: "/leads",
     name: "Leads",
-    component: Leads,
+    component: () =>
+      import(/* webpackChunkName: "leads" */ "../views/Leads.vue"),
   },
   {
     path: "/signup",
     name: "SignUp",
-    component: SignUp,
+    meta: { layout: "predashboard" },
+    component: () =>
+      import(/* webpackChunkName: "signup" */ "../views/SignUp.vue"),
   },
 ];
 
 const router = new VueRouter({
   mode: "history",
+  hash: false,
   base: process.env.BASE_URL,
   routes,
 });

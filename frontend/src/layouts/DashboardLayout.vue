@@ -19,11 +19,7 @@
                 </a>
               </li>
               <li>
-                <a
-                  :class="{ 'is-active': sideNav.admin }"
-                  href="#"
-                  @click="activeSideNav('admin')"
-                >
+                <a :class="{ 'is-active': sideNav.admin }" href="#" @click="activeSideNav('admin')">
                   <span class="icon is-small">
                     <i class="fa fa-tachometer"></i>
                   </span>
@@ -59,10 +55,8 @@
           <div class="subtitle side-nav-bar">bar</div>
         </aside>
 
-        <main
-          class="column main has-background-white-bis"
-          style="padding-right: 40px;"
-        >
+        <main class="column main has-background-white-bis slot-container">
+          <router-view></router-view>
           <slot />
         </main>
       </div>
@@ -74,6 +68,7 @@
 import NavBar from "@/components/NavBar.vue";
 
 export default {
+  name: "DashboardLayout",
   components: {
     NavBar
   },
@@ -99,8 +94,26 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+$base-color: #2c3e50;
+
 .navBar {
   padding-bottom: 10px;
+}
+
+.menu-list a.is-active {
+  background-color: $base-color;
+}
+
+.aside {
+  background-color: $base-color;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.slot-container {
+  padding-right: 40px;
+  padding-top: 25px;
+  border-radius: 50px;
 }
 </style>

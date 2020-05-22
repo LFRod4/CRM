@@ -56,7 +56,6 @@
                   </span>
                 </p>
               </div>
-              <p class="help">Do not enter the first zero</p>
             </div>
           </div>
         </div>
@@ -82,54 +81,13 @@
         </div>
 
         <div class="field is-horizontal">
-          <div class="field-label">
-            <label class="label">Already a member?</label>
-          </div>
-          <div class="field-body">
-            <div class="field is-narrow">
-              <div class="control">
-                <label class="radio">
-                  <input type="radio" name="member" />
-                  Yes
-                </label>
-                <label class="radio">
-                  <input type="radio" name="member" />
-                  No
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="field is-horizontal">
-          <div class="field-label is-normal">
-            <label class="label">Subject</label>
-          </div>
-          <div class="field-body">
-            <div class="field">
-              <div class="control">
-                <input
-                  class="input is-danger"
-                  type="text"
-                  placeholder="e.g. Partnership opportunity"
-                />
-              </div>
-              <p class="help is-danger">This field is required</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="field is-horizontal">
           <div class="field-label is-normal">
             <label class="label">Notes</label>
           </div>
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <textarea
-                  class="textarea"
-                  placeholder="Customer notes"
-                ></textarea>
+                <textarea class="textarea" placeholder="Customer notes"></textarea>
               </div>
             </div>
           </div>
@@ -162,7 +120,7 @@ export default {
       email: "",
       phone: "",
       source: "",
-      leadNotes: "",
+      leadNotes: ""
     };
   },
   methods: {
@@ -173,26 +131,26 @@ export default {
         email: this.email,
         phone: this.phone,
         source: this.source,
-        leadNotes: this.leadNotes,
+        leadNotes: this.leadNotes
       };
       axios
         .post("url", {
-          contact,
+          contact
         })
-        .then((res) => {
+        .then(res => {
           return res;
         })
-        .catch((err) => {
+        .catch(err => {
           return err;
         });
     },
     changeModalState(modalState) {
       this.$store.dispatch("changeModalState", modalState);
-    },
+    }
   },
   computed: {
-    ...mapState(["modalState"]),
-  },
+    ...mapState(["modalState"])
+  }
 };
 </script>
 

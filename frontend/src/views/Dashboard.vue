@@ -165,6 +165,10 @@
 .table {
   max-height: 200px;
 }
+
+.message-header {
+  background-color: #2c3e50 !important;
+}
 </style>
 
 <script>
@@ -177,6 +181,6 @@ export default {
   components: { Visualisation },
   created() {
     this.$emit(`update:layout`, DashboardLayout);
-  }
+  },
 };
 </script>
