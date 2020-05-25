@@ -13,7 +13,12 @@
           <div class="field-body">
             <div class="field">
               <p class="control is-expanded has-icons-left">
-                <input class="input" type="text" placeholder="First Name" />
+                <input
+                  class="input"
+                  type="text"
+                  placeholder="First Name"
+                  v-model="firstName"
+                />
                 <span class="icon is-small is-left">
                   <i class="fas fa-user"></i>
                 </span>
@@ -21,7 +26,12 @@
             </div>
             <div class="field">
               <p class="control is-expanded has-icons-left">
-                <input class="input" type="text" placeholder="Last Name" />
+                <input
+                  class="input"
+                  type="text"
+                  placeholder="Last Name"
+                  v-model="lastName"
+                />
                 <span class="icon is-small is-left">
                   <i class="fas fa-user"></i>
                 </span>
@@ -35,7 +45,12 @@
             <div class="field is-expanded">
               <div class="field has-addons">
                 <p class="control is-expanded has-icons-left">
-                  <input class="input" type="email" placeholder="Email" />
+                  <input
+                    class="input"
+                    type="email"
+                    placeholder="Email"
+                    v-model="email"
+                  />
                   <span class="icon is-small is-left">
                     <i class="fas fa-envelope"></i>
                   </span>
@@ -50,7 +65,12 @@
             <div class="field is-expanded">
               <div class="field has-addons">
                 <p class="control is-expanded has-icons-left">
-                  <input class="input" type="tel" placeholder="Phone number" />
+                  <input
+                    class="input"
+                    type="tel"
+                    placeholder="Phone number"
+                    v-model="phone"
+                  />
                   <span class="icon is-small is-left">
                     <i class="fas fa-phone"></i>
                   </span>
@@ -87,7 +107,11 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <textarea class="textarea" placeholder="Customer notes"></textarea>
+                <textarea
+                  class="textarea"
+                  placeholder="Customer notes"
+                  v-model="leadNotes"
+                ></textarea>
               </div>
             </div>
           </div>
@@ -100,7 +124,9 @@
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-success">Add Contact</button>
+        <button class="button contact-btn" @click="addContact()">
+          Add Contact
+        </button>
         <button class="button" @click="changeModalState(false)">Cancel</button>
       </footer>
     </div>
@@ -109,7 +135,7 @@
 
 <script>
 import { mapState } from "vuex";
-import { axios } from "axios";
+import axios from "axios";
 
 export default {
   name: "AddContact",
@@ -120,41 +146,66 @@ export default {
       email: "",
       phone: "",
       source: "",
-      leadNotes: ""
+      leadNotes: "",
     };
   },
   methods: {
-    AddContact() {
-      let contact = {
-        firstName: this.firstName,
-        lastName: this.lastName,
-        email: this.email,
-        phone: this.phone,
-        source: this.source,
-        leadNotes: this.leadNotes
-      };
+    addContact() {
       axios
-        .post("url", {
-          contact
-        })
-        .then(res => {
+        .post(
+          "https://ukjma0hb0c.execute-api.us-east-1.amazonaws.com/dev/leads",
+          {
+            first_name: this.firstName,
+            last_name: this.lastName,
+            email: this.email,
+            phone: this.phone,
+            source: this.source,
+            business_id: this.user["username"],
+          }
+        )
+        .then((res) => {
+          this.addNote(res.data["_id"]);
+          this.$store.dispatch("setContacts");
+          this.changeModalState(false);
           return res;
         })
-        .catch(err => {
+        .catch((err) => {
+          return err;
+        });
+    },
+    addNote(id) {
+      console.log(id);
+      axios
+        .put(
+          `https://ukjma0hb0c.execute-api.us-east-1.amazonaws.com/dev/notes/${id}`,
+          {
+            note: this.leadNotes,
+          }
+        )
+        .then((res) => {
+          return res;
+        })
+        .catch((err) => {
           return err;
         });
     },
     changeModalState(modalState) {
       this.$store.dispatch("changeModalState", modalState);
-    }
+    },
   },
   computed: {
-    ...mapState(["modalState"])
-  }
+    ...mapState(["modalState", "user"]),
+  },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+$primary: #2c3e50;
+
+.contact-btn {
+  color: $primary;
+}
+
 .label {
   text-align: left;
 }

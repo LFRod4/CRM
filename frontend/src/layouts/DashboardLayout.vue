@@ -7,52 +7,31 @@
           <nav class="menu">
             <ul class="menu-list">
               <li>
-                <a
-                  :class="{ 'is-active': sideNav.dashboard }"
-                  href="dashboard"
-                  @click="activeSideNav('dashboard')"
+                <router-link
+                  to="/dashboard"
+                  :class="{ 'is-active': activeNav == 'Dashboard' }"
                 >
-                  <span class="icon is-small">
-                    <i class="fa fa-tachometer"></i>
-                  </span>
                   Dashboard
-                </a>
+                </router-link>
               </li>
               <li>
-                <a :class="{ 'is-active': sideNav.admin }" href="#" @click="activeSideNav('admin')">
-                  <span class="icon is-small">
-                    <i class="fa fa-tachometer"></i>
-                  </span>
-                  Admin
-                </a>
-              </li>
-              <li>
-                <a
-                  :class="{ 'is-active': sideNav.leads }"
-                  href="leads"
-                  @click="activeSideNav('leads')"
+                <router-link
+                  to="/leads"
+                  :class="{ 'is-active': activeNav == 'Leads' }"
                 >
-                  <span class="icon is-small">
-                    <i class="fa fa-tachometer"></i>
-                  </span>
                   Leads
-                </a>
+                </router-link>
               </li>
               <li>
-                <a
-                  :class="{ 'is-active': sideNav.settings }"
-                  href="#"
-                  @click="activeSideNav('settings')"
+                <router-link
+                  to="/"
+                  :class="{ 'is-active': activeNav == 'Settings' }"
                 >
-                  <span class="icon is-small">
-                    <i class="fa fa-tachometer"></i>
-                  </span>
                   Settings
-                </a>
+                </router-link>
               </li>
             </ul>
           </nav>
-          <div class="subtitle side-nav-bar">bar</div>
         </aside>
 
         <main class="column main has-background-white-bis slot-container">
@@ -70,39 +49,41 @@ import NavBar from "@/components/NavBar.vue";
 export default {
   name: "DashboardLayout",
   components: {
-    NavBar
+    NavBar,
   },
   data: function() {
     return {
-      sideNav: {
-        dashboard: true,
-        admin: false,
-        settings: false,
-        leads: false
-      }
+      active: "dashboard",
     };
   },
-  methods: {
-    activeSideNav(option) {
-      for (var key in this.sideNav) {
-        this.sideNav[key] = false;
-      }
-      this.sideNav[option] = true;
-      this.$router.push({ name: option });
-    }
-  }
+  created() {
+    this.$store.dispatch("setContacts");
+  },
+  computed: {
+    activeNav() {
+      return this.$route.name;
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 $base-color: #2c3e50;
+$white: hsl(0, 0%, 96%);
 
 .navBar {
   padding-bottom: 10px;
 }
 
-.menu-list a.is-active {
-  background-color: $base-color;
+.menu-list a {
+  font-size: 1.3em;
+  color: $white;
+}
+
+.is-active {
+  font-weight: bold;
+  background-color: $white !important;
+  color: $base-color !important;
 }
 
 .aside {

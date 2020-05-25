@@ -6,19 +6,28 @@
 
 <script>
 // @ is an alias to /src
+import { Auth } from "aws-amplify";
+
 import PreDashboard from "@/layouts/PreDashboard.vue";
 import DashboardLayout from "@/layouts/DashboardLayout.vue";
 
 export default {
   components: {
     predashboard: PreDashboard,
-    dashboardlayout: DashboardLayout
+    dashboardlayout: DashboardLayout,
+  },
+  created() {
+    Auth.currentAuthenticatedUser()
+      .then((user) => {
+        this.$store.dispatch("setUser", user);
+      })
+      .catch((err) => console.log(err));
   },
   computed: {
     layout() {
       return this.$route.meta.layout || DashboardLayout;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -55,5 +64,15 @@ button {
   font-family: "Lora", serif;
   font-size: 2em;
   font-weight: 600;
+}
+
+.pagination-link.is-current {
+  background-color: $base_color !important;
+  border-color: $base_color !important;
+  color: hsl(0, 0%, 96%);
+}
+
+.mdi {
+  color: $base-color !important;
 }
 </style>

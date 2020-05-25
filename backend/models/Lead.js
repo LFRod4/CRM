@@ -6,8 +6,13 @@ const LeadSchema = new mongoose.Schema({
   source: String,
   phone: Number,
   email: String,
-  note: String,
+  notes: [
+    {
+      note: String,
+      date: { type: Date, default: Date.now },
+    },
+  ],
   date: { type: Date, default: Date.now },
-  business_id: Number,
+  business_id: String,
 });
 module.exports = mongoose.model("Lead", LeadSchema);

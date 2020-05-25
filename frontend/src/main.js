@@ -7,6 +7,7 @@ import Buefy from "buefy";
 import "buefy/dist/buefy.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
+import "vue-material-design-icons/styles.css";
 
 import Amplify, * as AmplifyModules from "aws-amplify";
 import { AmplifyPlugin } from "aws-amplify-vue";

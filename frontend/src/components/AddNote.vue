@@ -10,7 +10,11 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <textarea class="textarea" placeholder="Customer notes"></textarea>
+                <textarea
+                  class="textarea"
+                  placeholder="Customer notes"
+                  v-model="note"
+                ></textarea>
               </div>
             </div>
           </div>
@@ -23,8 +27,10 @@
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-success">Add Note</button>
-        <button class="button" @click="changeNoteModalState(false)">Cancel</button>
+        <button class="button is-success" @click="addNote()">Add Note</button>
+        <button class="button" @click="changeNoteModalState(false)">
+          Cancel
+        </button>
       </footer>
     </div>
   </div>
@@ -32,35 +38,40 @@
 
 <script>
 import { mapState } from "vuex";
-import { axios } from "axios";
+import axios from "axios";
 
 export default {
   name: "AddNote",
   data() {
     return {
-      note: ""
+      note: "",
     };
   },
   methods: {
-    AddNote() {
+    addNote() {
       axios
-        .post("url", {
-          note: this.note
-        })
-        .then(res => {
+        .put(
+          `https://ukjma0hb0c.execute-api.us-east-1.amazonaws.com/dev/notes/${this.activeContact}`,
+          {
+            note: this.note,
+          }
+        )
+        .then((res) => {
+          this.$store.dispatch("setContacts");
+          this.changeNoteModalState(false);
           return res;
         })
-        .catch(err => {
+        .catch((err) => {
           return err;
         });
     },
     changeNoteModalState(noteModalState) {
       this.$store.dispatch("changeNoteModalState", noteModalState);
-    }
+    },
   },
   computed: {
-    ...mapState(["noteModalState"])
-  }
+    ...mapState(["noteModalState", "activeContact"]),
+  },
 };
 </script>
 

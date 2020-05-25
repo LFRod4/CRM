@@ -1,7 +1,7 @@
 <template>
   <b-navbar class="nav-bar">
     <template slot="brand">
-      <b-navbar-item tag="router-link" :to="{ path: '/' }">
+      <b-navbar-item tag="router-link" :to="{ path: '/dashboard' }">
         <div class="is-size-1 has-text-white-ter">Bradynce</div>
       </b-navbar-item>
     </template>
@@ -26,13 +26,14 @@ export default {
   methods: {
     signOut() {
       Auth.signOut()
-        .then(data => {
+        .then((data) => {
           console.log(data);
+          this.$store.dispatch("signOut");
           this.$router.push("/signup");
         })
-        .catch(err => console.log(err));
-    }
-  }
+        .catch((err) => console.log(err));
+    },
+  },
 };
 </script>
 

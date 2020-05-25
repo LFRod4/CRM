@@ -7,11 +7,18 @@
         </div>
         <div class="column is-7"></div>
         <div class="column">
-          <button class="button" @click="changeFilterColumnState()">Filter</button>
-          <button class="button is-primary" @click="changeModalState(true)">Add Contact</button>
+          <button class="button is-primary" @click="changeModalState(true)">
+            Add Contact
+          </button>
+          <button
+            class="button is-primary filter-btn"
+            @click="changeFilterColumnState()"
+          >
+            Filter
+          </button>
         </div>
       </div>
-      <LeadsChart></LeadsChart>
+      <LeadsChart class="leadsChart"></LeadsChart>
       <AddContact v-if="modalState" class="modal is-active"></AddContact>
       <AddNote v-if="noteModalState" class="modal is-active"></AddNote>
     </div>
@@ -31,7 +38,7 @@ export default {
   components: {
     LeadsChart,
     AddContact,
-    AddNote
+    AddNote,
   },
   methods: {
     changeModalState(modalState) {
@@ -42,7 +49,7 @@ export default {
     },
     changeFilterColumnState() {
       this.$store.dispatch("changeFilterColumnState");
-    }
+    },
   },
   computed: {
     modalState: {
@@ -51,7 +58,7 @@ export default {
       },
       set(newModalState) {
         return newModalState;
-      }
+      },
     },
     noteModalState: {
       get() {
@@ -59,12 +66,29 @@ export default {
       },
       set(newNoteModalState) {
         return newNoteModalState;
-      }
+      },
     },
-    ...mapState(["modalState", "noteModalState"])
+    ...mapState(["modalState", "noteModalState"]),
   },
   created() {
     this.$emit(`update:layout`, DashboardLayout);
-  }
+  },
 };
 </script>
+
+<style lang="scss" scoped>
+$primary: #2c3e50;
+
+.is-primary {
+  background-color: $primary !important;
+  color: hsl(0, 0%, 96%);
+}
+
+.filter-btn {
+  margin-left: 10px;
+}
+
+.leadsChart {
+  height: 100vh;
+}
+</style>

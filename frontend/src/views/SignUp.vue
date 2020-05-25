@@ -13,16 +13,31 @@
           <input type="text" v-model="lastName" placeholder="Last Name" />
           <input type="email" v-model="emailUp" placeholder="Email" />
           <input type="password" v-model="passwordUp" placeholder="Password" />
-          <input type="number" v-if="emailSent" v-model="code" placeholder="Confirmation Code" />
+          <input
+            type="number"
+            v-if="emailSent"
+            v-model="code"
+            placeholder="Confirmation Code"
+          />
           <button @click="signUp()">Sign Up</button>
         </form>
       </div>
-      <div class="form-container sign-in-container">
+      <div
+        class="form-container sign-in-container"
+        :class="{ 'is-invisible': rightPanel == true }"
+      >
         <div class="signin-form">
           <h1>Sign in</h1>
           <input type="email" v-model="emailIn" placeholder="Email" />
           <input type="password" v-model="passwordIn" placeholder="Password" />
-          <a href="#">Forgot your password?</a>
+          <br />
+          <div class="is-pulled-left is-size-7">
+            <span class="has-text-weight-bold"> Email:</span>
+            test@gmail.com<br />
+            <span class="has-text-weight-bold">Password:</span>
+            Testaccount1
+          </div>
+          <br />
           <button @click="signIn()">Sign In</button>
         </div>
       </div>
@@ -30,13 +45,19 @@
         <div class="overlay">
           <div class="overlay-panel overlay-left">
             <h1>Welcome Back!</h1>
-            <p>To keep connected with us please login with your personal info</p>
-            <button class="ghost" id="signIn" @click="rightPanel = false">Sign In</button>
+            <p>
+              To keep connected with us please login with your personal info
+            </p>
+            <button class="ghost" id="signIn" @click="rightPanel = false">
+              Sign In
+            </button>
           </div>
           <div class="overlay-panel overlay-right">
             <h1>Hello, Friend!</h1>
             <p>Enter your personal details and start journey with us</p>
-            <button class="ghost" id="signUp" @click="rightPanel = true">Sign Up</button>
+            <button class="ghost" id="signUp" @click="rightPanel = true">
+              Sign Up
+            </button>
           </div>
         </div>
       </div>
@@ -46,9 +67,6 @@
 
 <script>
 import { Auth } from "aws-amplify";
-// import { axios } from "axios";
-
-// import LoginSignupLayout from "@/layouts/LoginSignupLayout.vue";
 
 export default {
   data() {
@@ -61,11 +79,8 @@ export default {
       emailUp: "",
       passwordUp: "",
       code: "",
-      emailSent: false
+      emailSent: false,
     };
-  },
-  created() {
-    //this.$emit(`update:layout`, LoginSignupLayout);
   },
   methods: {
     signUp() {
@@ -74,56 +89,42 @@ export default {
           username: this.emailUp,
           password: this.passwordUp,
           attributes: {
-            email: this.emailUp
-          }
+            email: this.emailUp,
+          },
         })
-          .then(data => {
+          .then((data) => {
             this.emailSent = true;
             console.log(data);
           })
-          .catch(err => console.log(err));
+          .catch((err) => console.log(err));
       } else {
         this.confirm();
       }
-      // axios
-      //   .post("http://127.0.0.1:8000/api/create/", {
-      //     first_name: this.firstName,
-      //     last_name: this.lastName,
-      //     email: this.email,
-      //     password: this.password,
-      //   })
-      //   .then((res) => {
-      //     console.log(res);
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
     },
     confirm() {
-      // After retrieveing the confirmation code from the user
       Auth.confirmSignUp(this.emailUp, this.code, {})
-        .then(data => {
+        .then((data) => {
           console.log(data);
           this.rightPanel = false;
         })
-        .catch(err => console.log(err));
+        .catch((err) => console.log(err));
     },
     signIn() {
       let username = this.emailIn;
       let password = this.passwordIn;
       Auth.signIn(username, password)
-        .then(user => {
+        .then((user) => {
           this.$store.commit("SETLAYOUT", "dashboardlayout");
           this.home();
           this.$store.commit("SETUSER", user);
           this.$store.commit("CHANGESIGNEDIN", true);
         })
-        .catch(err => console.log(err));
+        .catch((err) => console.log(err));
     },
     home() {
       this.$router.push("/dashboard");
-    }
-  }
+    },
+  },
 };
 </script>
 
